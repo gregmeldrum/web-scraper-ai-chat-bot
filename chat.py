@@ -10,7 +10,7 @@ import openai
 def chat():
 
     print ("Starting chat bot")
-    
+
     openai.api_key = os.getenv('OPENAI_API_KEY')
 
     # Set the huggingface tokenizer parallelism to false (this avoid warnings)
@@ -45,11 +45,11 @@ def chat():
     )
 
     while True:
-        user_input=input(f"prompt:")
+        user_input=input(f"prompt: ")
         if user_input=='exit':
             print('Exiting')
             sys.exit()
         if user_input=='':
             continue
         result=chain({'query':user_input})
-        print(f"Answer:{result['result']}")
+        print(f"Answer: {result['result']}")

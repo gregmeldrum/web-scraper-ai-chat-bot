@@ -19,9 +19,12 @@ def embed():
     text_splitter=RecursiveCharacterTextSplitter(chunk_size=500,
                                                 chunk_overlap=50)
 
-    text_chunks=text_splitter.split_documents(documents)
+    text_splitter.split_documents(documents)
 
     # Load the huggingface embedding model
+    # There are many models to choose from. The gte-base seems to give a good middle ground
+    # between the size of the model and the quality of the output. This model runs locally
+    # so there is no cost.
 
     #embedding_model=HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2', model_kwargs={'device':'cpu'})
     embedding_model=HuggingFaceEmbeddings(model_name='thenlper/gte-base', model_kwargs={'device':'cpu'})
