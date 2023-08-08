@@ -20,9 +20,23 @@ def chat():
 
     db = Chroma(persist_directory="./chroma_db", embedding_function=embedding_model)
 
-    retriever = db.as_retriever(search_kwargs={'k': 2})
+    # Use MMR to reduce redundancy
+    retriever = db.as_retriever(search_type="mmr", search_kwargs={'k': 3})
 
+    # We need a context length >=8000 so we'll use GPT 3.5 turbo 16k. It provides
+    # a good balance between cost and accuracy
     llm = ChatOpenAI(temperature = 0.0, model_name="gpt-3.5-turbo-16k-0613")
+
+    # # Alternatively you could use Azure or a local LLM
+    # os.environ["OPENAI_API_TYPE"] = "azure"
+    # os.environ["OPENAI_API_VERSION"] = "2023-05-15"
+    # os.environ["OPENAI_API_BASE"] = "..."
+    # os.environ["OPENAI_API_KEY"] = "..."
+
+    # llm = AzureOpenAI(
+    #     deployment_name="td2",
+    #     model_name="gpt-3.5-turbo-16k-0613",
+    # )
 
     template="""Use the following pieces of information to answer the user's question.
     If you dont know the answer just say you don't know, don't try to make up an answer.
