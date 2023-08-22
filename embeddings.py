@@ -19,7 +19,7 @@ def embed():
     text_splitter=RecursiveCharacterTextSplitter(chunk_size=500,
                                                 chunk_overlap=50)
 
-    text_splitter.split_documents(documents)
+    texts = text_splitter.split_documents(documents)
 
     # Load the huggingface embedding model
     # There are many models to choose from. The gte-base seems to give a good middle ground
@@ -31,6 +31,6 @@ def embed():
     #embedding_model=HuggingFaceEmbeddings(model_name='thenlper/gte-large', model_kwargs={'device':'cpu'})
     #embedding_model=HuggingFaceEmbeddings(model_name='text-embedding-ada-002', model_kwargs={'device':'cpu'})
 
-    db = Chroma.from_documents(documents, embedding_model, persist_directory="./chroma_db")
+    db = Chroma.from_documents(texts, embedding_model, persist_directory="./chroma_db")
 
     print("Embeddings completed")
